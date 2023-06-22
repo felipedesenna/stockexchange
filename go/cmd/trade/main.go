@@ -21,11 +21,11 @@ func main() {
 	kafkaMsgChan := make(chan *ckafka.Message)
 	configMap := &ckafka.ConfigMap{
 		"bootstrap.servers": "host.docker.internal:9094",
-		"group.id":          "stockExchange",
-    "auto.offset.reset": "earliest",
+		"group.id":          "myGroup",
+    "auto.offset.reset": "latest",
 	}
 	producer := kafka.NewKafkaProducer(configMap)
-	kafka := kafka.NewConsumer(configMap, []string{"input-orders"})
+	kafka := kafka.NewConsumer(configMap, []string{"input"})
 
 	go kafka.Consume(kafkaMsgChan)
 
