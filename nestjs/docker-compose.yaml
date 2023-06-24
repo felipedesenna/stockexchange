@@ -12,14 +12,19 @@ services:
       - "host.docker.internal:172.17.0.1"
   
   db:
-    image: bitnami/mongodb:5.0.17
-    volumes:
-      - mongodb_data:/bitnami/mongodb
+    build: ./mongo_rs
+    #image: bitnami/mongodb:5.0.17
+    #image: mongo:5.0.17
+    #command: mongod --replSet my-mongo-set
+    restart: always
     environment:
-      MONGODB_ROOT_PASSWORD: root
-      MONGODB_REPLICA_SET_MODE: primary
-      MONGODB_REPLICA_SET_KEY: 123456
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_REPLICA_HOST: db
+      # MONGODB_REPLICA_SET_MODE: primary
+      # MONGODB_REPLICA_SET_KEY: 123456
       MONGODB_DATABASE: nest
+    # volumes:
+    #   - mongodb_data:/bitnami/mongodb
     # networks:
       # - my-network
 
@@ -27,6 +32,6 @@ volumes:
   mongodb_data:
     driver: local
 
-networks:
-  my-network:
-    external: true
+# networks:
+  # my-network:
+    # external: true
