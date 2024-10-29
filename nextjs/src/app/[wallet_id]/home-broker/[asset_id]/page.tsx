@@ -1,4 +1,5 @@
-import { ChartComponent } from "../../../components/ChartComponent";
+import { SyncOrders } from '@/app/components/SyncOrders';
+import { AssetChartComponent } from "../../../components/AssetChatComponent";
 import {
   TabsGroup,
   TabsItem,
@@ -59,12 +60,16 @@ export default async function HomeBrokerPage({ params }: HomeBrokerPageProps) {
                 },
               }}
             >
-              <MyOrders wallet_id={params.wallet_id} />
+              <SyncOrders wallet_id={params.wallet_id}>
+                <div className="max-h-96 overflow-y-auto overflow-x-hidden">
+                  <MyOrders wallet_id={params.wallet_id} />
+                </div>
+              </SyncOrders>
             </Card>
           </div>
         </div>
         <div className="col-span-3 flex flex-grow">
-          <ChartComponent header="Asset 1 - R$ 100" />
+          <AssetChartComponent asset_id={params.asset_id} />
         </div>
       </div>
     </main>

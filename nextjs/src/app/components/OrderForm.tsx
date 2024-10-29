@@ -16,7 +16,7 @@ async function initialTransaction(formData: FormData) {
   const type = formData.get("type");
 
   const response = await fetch(
-    `http://localhost:8000/wallets/${wallet_id}/orders`,
+    `http://host.docker.internal:3000/wallets/${wallet_id}/orders`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +37,7 @@ async function initialTransaction(formData: FormData) {
     }
   );
   revalidateTag(`orders-wallet-${wallet_id}`);
-  return await response.json();
+  return response.json();
 }
 
 export function OrderForm(props: OrderFormProps) {

@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Order, OrderSchema } from './order.schema';
 
 @Module({
   imports: [
+    MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
     ClientsModule.register([
       {
         name: 'ORDERS_PUBLISHER',
@@ -12,8 +15,11 @@ import { OrdersController } from './orders.controller';
         options: {
           client: {
             clientId: 'orders',
-            brokers: ['host.docker.internal:9094'],
-            //brokers: ['kafka:29092'],
+            brokers: [
+              'host.docker.internal:9094',
+              'kafka:29092',
+              'localhost:9094',
+            ],
           },
         },
       },
@@ -21,5 +27,6 @@ import { OrdersController } from './orders.controller';
   ],
   controllers: [OrdersController],
   providers: [OrdersService],
+  exports: [OrdersService],
 })
 export class OrdersModule {}
